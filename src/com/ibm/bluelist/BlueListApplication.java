@@ -49,7 +49,7 @@ public final class BlueListApplication extends Application {
 	private static final String APP_ID = "applicationID";
 	private static final String APP_SECRET = "applicationSecret";
 	private static final String APP_ROUTE = "applicationRoute";
-	private static final String PROPS_FILE = "bluelist.properties";
+	private static final String PROPS_FILE = "iFix.properties";
 
 	private IBMPushNotificationListener notificationListener = null;
 	List<Item> itemList;
@@ -151,9 +151,9 @@ public final class BlueListApplication extends Application {
 			props.load(assetManager.open(PROPS_FILE));
 			Log.i(CLASS_NAME, "Found configuration file: " + PROPS_FILE);
 		} catch (FileNotFoundException e) {
-			Log.e(CLASS_NAME, "The bluelist.properties file was not found.", e);
+			Log.e(CLASS_NAME, "The iFix.properties file was not found.", e);
 		} catch (IOException e) {
-			Log.e(CLASS_NAME, "The bluelist.properties file could not be read properly.", e);
+			Log.e(CLASS_NAME, "The iFix.properties file could not be read properly.", e);
 		}
 		Log.i(CLASS_NAME, "Application ID is: " + props.getProperty(APP_ID));
 
