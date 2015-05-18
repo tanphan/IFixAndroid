@@ -19,10 +19,23 @@ package com.ibm.bluelist;
 import com.ibm.mobile.services.data.IBMDataObject;
 import com.ibm.mobile.services.data.IBMDataObjectSpecialization;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @IBMDataObjectSpecialization("Item")
 public class Item extends IBMDataObject {
 	public static final String CLASS_NAME = "Item";
 	private static final String NAME = "name";
+
+	public Set<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<String> tags) {
+		this.tags = tags;
+	}
+
+	Set<String> tags = new HashSet<String>();
 	
 	/**
 	 * Gets the name of the Item.
@@ -49,4 +62,21 @@ public class Item extends IBMDataObject {
 		theItemName = getName();
 		return theItemName;
 	}
+
+	public String toDetailedString() {
+		String ret = toString();
+		return ret;
+		//TODO: to return full text
+	}
+
+	public boolean match(Set<String> searchConditions){
+		for( String condition : searchConditions){
+			if(tags.contains(condition)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 }
