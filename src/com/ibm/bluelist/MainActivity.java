@@ -400,6 +400,58 @@ public class MainActivity extends Activity {
 		updateMode = !updateMode;
 		TextView titleText = (TextView) findViewById(R.id.titleText);
 		titleText.setText(updateMode ? "Resolver notes": "Lookup");
+		EditText editText = (EditText) findViewById(R.id.itemToAdd);
+		editText.setText(updateMode ? "Add inc:env:rootcause:resolution:resolver details": "Lookup items e.g. 'EVTE SRP server'");
 
+	}
+
+
+	public void lookupItem(View v) {
+		EditText itemToAdd = (EditText) findViewById(R.id.itemToAdd);
+		String toAdd = "Nothing found, call Phuoc Giang to get details on " + itemToAdd.getText().toString();
+		Item item = new Item();
+		if (!toAdd.equals("")) {
+			item.setName(toAdd);
+			/**
+			 * IBMObjectResult is used to handle the response from the server after
+			 * either creating or saving an object.
+			 *
+			 * onResult is called if the object was successfully saved.
+			 * onError is called if an error occurred saving the object.
+			 */
+			item.save().continueWith(new Continuation<IBMDataObject, Void>() {
+
+				@Override
+				public Void then(Task<IBMDataObject> task) throws Exception {
+					// Log error message, if the save task is cancelled.
+					if (task.isCancelled()) {
+						Log.e(CLASS_NAME, "Exception : Task " + task.toString() + " was cancelled.");
+					}
+					// Log error message, if the save task fails.
+					else if (task.isFaulted()) {
+						Log.e(CLASS_NAME, "Exception : " + task.getError().getMessage());
+					}
+
+					// If the result succeeds, load the list.
+					else {
+						listItems();
+						updateOtherDevices();
+					}
+					return null;
+				}
+
+			});
+
+			// Set text field back to empty after item added.
+			itemToAdd.setText("");
+		}
+	}
+	public void onEditTextFieldUpdate(View view){
+		if(updateMode){
+			createItem(view);
+		}
+		else{
+			lookupItem(view);
+		}
 	}
 }
