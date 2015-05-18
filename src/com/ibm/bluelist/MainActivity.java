@@ -62,6 +62,7 @@ public class MainActivity extends Activity {
 	ActionMode mActionMode = null;
 	int listItemPosition;
 	public static final String CLASS_NAME = "MainActivity";
+	private boolean updateMode = false;
 	
 	@Override
 	/**
@@ -328,7 +329,7 @@ public class MainActivity extends Activity {
 	
 	/**
 	 * Will call new activity for editing item on list.
-	 * @parm String name - name of the item.
+	 * @param String name - name of the item.
 	 */
 	public void updateItem(String name) {
 		Intent editIntent = new Intent(getBaseContext(), EditActivity.class);
@@ -395,4 +396,10 @@ public class MainActivity extends Activity {
 	        mActionMode = null;
 	    }
 	};
+	public void onUpdateToggleClicked(View view){
+		updateMode = !updateMode;
+		TextView titleText = (TextView) findViewById(R.id.titleText);
+		titleText.setText(updateMode ? "Resolver notes": "Lookup");
+
+	}
 }
