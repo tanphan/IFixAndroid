@@ -19,6 +19,7 @@ package com.ibm.bluelist;
 import com.ibm.mobile.services.data.IBMDataObject;
 import com.ibm.mobile.services.data.IBMDataObjectSpecialization;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +27,8 @@ import java.util.Set;
 public class Item extends IBMDataObject {
 	public static final String CLASS_NAME = "Item";
 	private static final String NAME = "name";
+	private Date createdDate = new Date();
+
 
 	public Set<String> getTags() {
 		return tags;
@@ -35,7 +38,8 @@ public class Item extends IBMDataObject {
 		this.tags = tags;
 	}
 
-	Set<String> tags = new HashSet<String>();
+	private Set<String> tags = new HashSet<String>();
+
 	
 	/**
 	 * Gets the name of the Item.
