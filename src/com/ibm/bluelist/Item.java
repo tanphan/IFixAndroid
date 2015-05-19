@@ -73,13 +73,18 @@ public class Item extends IBMDataObject {
 		//TODO: to return full text
 	}
 
-	public boolean match(Set<String> searchConditions){
-		for( String condition : searchConditions){
-			if(tags.contains(condition)) {
-				return true;
-			}
+	public boolean match(String searchConditions){
+		System.out.println("searchConditions: " + searchConditions);
+		for(String tag : tags){
+			if (tag.toLowerCase().contains(searchConditions.toLowerCase()))
+					return true;
 		}
+		System.out.println("False");
 		return false;
+	}
+
+	public void addTag(String tag){
+		tags.add(tag);
 	}
 
 
