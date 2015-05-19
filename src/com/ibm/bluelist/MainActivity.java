@@ -408,7 +408,7 @@ public class MainActivity extends Activity {
 
 	public void lookupItem(View v) {
 		EditText itemToAdd = (EditText) findViewById(R.id.itemToAdd);
-		String toAdd = "Nothing found, call Phuoc Giang to get details on " + itemToAdd.getText().toString();
+		String toAdd = "Nothing found, call Phuoc Giang to get details on " + itemToAdd.getText().toString() + " :D";
 		try {
 			IBMQuery<Item> query = IBMQuery.queryForClass(Item.class);
 			/**
