@@ -409,41 +409,46 @@ public class MainActivity extends Activity {
 	public void lookupItem(View v) {
 		EditText itemToAdd = (EditText) findViewById(R.id.itemToAdd);
 		String toAdd = "Nothing found, call Phuoc Giang to get details on " + itemToAdd.getText().toString();
-		Item item = new Item();
-		if (!toAdd.equals("")) {
-			item.setName(toAdd);
+		try {
+			IBMQuery<Item> query = IBMQuery.queryForClass(Item.class);
 			/**
-			 * IBMObjectResult is used to handle the response from the server after
-			 * either creating or saving an object.
+			 * IBMQueryResult is used to receive array of objects from server.
 			 *
-			 * onResult is called if the object was successfully saved.
-			 * onError is called if an error occurred saving the object.
+			 * onResult is called when it successfully retrieves the objects associated with the
+			 * query, and will reorder these items based on creation time.
+			 *
+			 * onError is called when an error occurs during the query.
 			 */
-			item.save().continueWith(new Continuation<IBMDataObject, Void>() {
+			query.find().continueWith(new Continuation<List<Item>, Void>() {
 
 				@Override
-				public Void then(Task<IBMDataObject> task) throws Exception {
+				public Void then(Task<List<Item>> task) throws Exception {
 					// Log error message, if the save task is cancelled.
 					if (task.isCancelled()) {
 						Log.e(CLASS_NAME, "Exception : Task " + task.toString() + " was cancelled.");
 					}
 					// Log error message, if the save task fails.
-					else if (task.isFaulted()) {
+					if (task.isFaulted()) {
 						Log.e(CLASS_NAME, "Exception : " + task.getError().getMessage());
 					}
 
 					// If the result succeeds, load the list.
 					else {
-						listItems();
-						updateOtherDevices();
+						final List<Item> objects = task.getResult();
+						// Clear local itemList, as we'll be reordering & repopulating from DataService.
+						itemList.clear();
+						for (IBMDataObject item : objects) {
+							itemList.add((Item) item);
+						}
+						sortItems(itemList);
+						lvArrayAdapter.notifyDataSetChanged();
 					}
 					return null;
 				}
+			},Task.UI_THREAD_EXECUTOR);
 
-			});
-
-			// Set text field back to empty after item added.
-			itemToAdd.setText("");
+		}  catch (IBMDataException error) {
+			Log.e(CLASS_NAME, "Exception : " + error.getMessage());
 		}
 	}
 	public void onEditTextFieldUpdate(View view){
