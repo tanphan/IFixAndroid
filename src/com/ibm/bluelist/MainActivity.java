@@ -407,8 +407,7 @@ public class MainActivity extends Activity {
 
 
 	public void lookupItem(View v) {
-		EditText itemToAdd = (EditText) findViewById(R.id.itemToAdd);
-		String toAdd = "Nothing found, call Phuoc Giang to get details on " + itemToAdd.getText().toString() + " :D";
+
 		try {
 			IBMQuery<Item> query = IBMQuery.queryForClass(Item.class);
 			/**
@@ -437,10 +436,13 @@ public class MainActivity extends Activity {
 						final List<Item> objects = task.getResult();
 						// Clear local itemList, as we'll be reordering & repopulating from DataService.
 						itemList.clear();
-						for (IBMDataObject item : objects) {
-							itemList.add((Item) item);
-						}
-						sortItems(itemList);
+						EditText itemToAdd = (EditText) findViewById(R.id.itemToAdd);
+						String toAdd = "Nothing found, call Phuoc Giang to get details on " + itemToAdd.getText().toString() + " :D";
+						Item item = new Item();
+						item.setName(toAdd);
+						itemList.add(item);
+
+						//sortItems(itemList);
 						lvArrayAdapter.notifyDataSetChanged();
 					}
 					return null;
