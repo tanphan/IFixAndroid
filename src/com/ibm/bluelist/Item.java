@@ -74,12 +74,10 @@ public class Item extends IBMDataObject {
 	}
 
 	public boolean match(String searchConditions){
-		System.out.println("searchConditions: " + searchConditions);
 		for(String tag : tags){
 			if (tag.toLowerCase().contains(searchConditions.toLowerCase()))
 					return true;
 		}
-		System.out.println("False");
 		return false;
 	}
 
