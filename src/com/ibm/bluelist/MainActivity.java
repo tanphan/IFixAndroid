@@ -479,6 +479,8 @@ public class MainActivity extends Activity {
         item2.setName("EVTE MEIG Node 2: H211WVA2");
         data.add(item2);
 
+        //TODO: Add data from Bluemix to this
+
     }
 
     public List<Item> search(String searchString){
