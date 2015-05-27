@@ -56,7 +56,7 @@ public final class BlueListApplication extends Application {
 
 	public BlueListApplication() {
 		registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
-			@Override
+				@Override
 			public void onActivityCreated(Activity activity,Bundle savedInstanceState) {
 				Log.d(CLASS_NAME, "Activity created: " + activity.getLocalClassName());
 				mActivity = activity;

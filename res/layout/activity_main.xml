@@ -49,7 +49,7 @@ limitations under the License.
 	        android:paddingTop="20dp"
 	        android:paddingBottom="20dp"
 	        android:paddingLeft="55dp">
-		    
+
 	    </EditText>
 	    <Button
 	        android:id="@+id/clearText"

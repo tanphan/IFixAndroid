@@ -56,6 +56,12 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_edit" >
         </activity>
+        <activity
+            android:name="com.ibm.bluelist.EditTags"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_edit" >
+        </activity>
+
         <!-- Push Settings Start -->
 
 

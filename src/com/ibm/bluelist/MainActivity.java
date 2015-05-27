@@ -29,6 +29,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -309,7 +310,6 @@ public class MainActivity extends Activity {
         itemList.remove(listItemPosition);
         // This will attempt to delete the item on the server.
         item.delete().continueWith(new Continuation<IBMDataObject, Void>() {
-
             // Called if the object was successfully deleted.
             @Override
             public Void then(Task<IBMDataObject> task) throws Exception {
@@ -341,7 +341,12 @@ public class MainActivity extends Activity {
      */
     public void updateItem(String name) {
         Intent editIntent = new Intent(getBaseContext(), EditActivity.class);
-        editIntent.putExtra("ItemText", name);
+        editIntent.putExtra("ItemLocation", listItemPosition);
+        startActivityForResult(editIntent, BlueListApplication.EDIT_ACTIVITY_RC);
+    }
+
+    public void addTag(String name) {
+        Intent editIntent = new Intent(getBaseContext(), EditTags.class);
         editIntent.putExtra("ItemLocation", listItemPosition);
         startActivityForResult(editIntent, BlueListApplication.EDIT_ACTIVITY_RC);
     }
@@ -395,7 +400,12 @@ public class MainActivity extends Activity {
 	            /* On delete, remove list item & update. */
                 case R.id.action_delete:
                     deleteItem(lItem);
+                    mode.finish();
+                     return true;/* Action picked, so close the CAB. */
+                case R.id.action_tag:
+                    addTag(lItem.getName());
                     mode.finish(); /* Action picked, so close the CAB. */
+                    return true;
                 default:
                     return false;
             }
@@ -409,19 +419,26 @@ public class MainActivity extends Activity {
 
     public void onUpdateToggleClicked(View view) {
 
+        Switch toggle = (Switch)findViewById(R.id.modeSwitch);
 
-        updateMode = ((Switch)view).isChecked();
-        TextView titleText = (TextView) findViewById(R.id.titleText);
-        EditText editText = (EditText) findViewById(R.id.itemToAdd);
-        editText.setText("");
-        if(updateMode){
-            titleText.setText("Resolver notes");
-            editText.setHint("Add inc:env:rootcause:resolution:resolver details");
-        }
-        else{
-            titleText.setText("Look up");
-            editText.setHint("Lookup items e.g. 'EVTE SRP server'");
-        }
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                TextView titleText = (TextView) findViewById(R.id.titleText);
+                EditText editText = (EditText) findViewById(R.id.itemToAdd);
+                editText.setText("");
+
+                if (isChecked) {
+                    titleText.setText("Resolver notes");
+                    editText.setHint("Add inc:env:rootcause:resolution:resolver details");
+
+                } else {
+                    titleText.setText("Look up");
+                    editText.setHint("Lookup items e.g. 'EVTE SRP server'");
+                }
+            }
+        });
+
     }
 
     /**
@@ -461,6 +478,7 @@ public class MainActivity extends Activity {
         item2.addTag("EVTE MEIG Node 2");
         item2.setName("EVTE MEIG Node 2: H211WVA2");
         data.add(item2);
+
     }
 
     public List<Item> search(String searchString){

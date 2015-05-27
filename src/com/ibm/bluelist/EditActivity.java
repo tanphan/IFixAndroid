@@ -58,11 +58,10 @@ public class EditActivity extends Activity {
 		
 		/* Information required to edit item. */
 		Intent intent = getIntent();
-	    originalItem = intent.getStringExtra("ItemText");
 	    location = intent.getIntExtra("ItemLocation", 0);
 		EditText itemToEdit = (EditText) findViewById(R.id.itemToEdit);
 		itemToEdit.setText(originalItem);
-		
+
 		/* Set key listener for edittext (done key to accept item to list). */
 		itemToEdit.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
@@ -78,7 +77,6 @@ public class EditActivity extends Activity {
 
 	/**
 	 * On completion of edit, edit itemList, return to main activity with edit return code.
-	 * @param View v
 	 */
 	public void finishedEdit(View v) {
 		Item item = itemList.get(location);

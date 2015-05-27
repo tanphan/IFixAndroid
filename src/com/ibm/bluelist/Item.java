@@ -46,8 +46,13 @@ public class Item extends IBMDataObject {
 	 * @return String itemName
 	 */
 	public String getName() {
-		return (String) getObject(NAME);
+	return (String) getObject(NAME);
+	/* String ret =  getName();
+	for (String tag : tags){
+		ret += ' ' + tag.toString();
 	}
+		return ret; */
+}
 
 	/**
 	 * Sets the name of a list item, as well as calls setCreationTime().
@@ -62,9 +67,12 @@ public class Item extends IBMDataObject {
 	 * @return String theItemName
 	 */
 	public String toString() {
-		String theItemName = "";
-		theItemName = getName();
-		return theItemName;
+		String ret = getName();
+		for (String tag : tags){
+			ret += " " + tag.toString();
+		}
+
+		return ret;
 	}
 
 	public String toDetailedString() {
@@ -84,6 +92,8 @@ public class Item extends IBMDataObject {
 	public void addTag(String tag){
 		tags.add(tag);
 	}
+
+
 
 
 }
